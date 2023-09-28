@@ -1,1 +1,1 @@
-# Lotus_frontend
+# LotusFrontend
