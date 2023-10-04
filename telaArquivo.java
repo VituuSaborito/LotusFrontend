@@ -27,7 +27,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-public class telaArquivo {
+public class TelaArquivo {
 	static String username = System.getProperty("user.name");
 	public static String nome;
 	
@@ -133,7 +133,7 @@ public class telaArquivo {
 			    		   
 			    		   tela.dispose();
 			    		   //DocumentIngestor.main(args);
-			    		   telaResposta.main(args);
+			    		   TelaResposta.main(args);
 			    		   
 			    		   //buferredReader.close();
 			    		   //bw.close();

@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 
-public class telaResposta {
+public class TelaResposta {
 
 	static String papo = "";
 	
@@ -55,7 +55,7 @@ public class telaResposta {
 			public void actionPerformed(ActionEvent evt) {
 				backend.DocumentIngestor.pergunta = mensagem.getText();
 				try {
-					System.out.println(telaArquivo.nome);
+					System.out.println(TelaArquivo.nome);
 					backend.DocumentIngestor.main(args);
 					mensagem.setText("");
 				} catch (Exception e) {

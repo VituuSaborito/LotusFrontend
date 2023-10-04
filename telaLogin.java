@@ -9,7 +9,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 //import javax.swing.JRadioButton;
 
-public class telaLogin {
+public class TelaLogin {
 	public static void main(String[] args){
 		JFrame tela = new JFrame("Login");
 		tela.setSize(500, 700);
