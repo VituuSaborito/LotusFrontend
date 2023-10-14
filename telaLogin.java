@@ -7,6 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+
+import dao.ClienteDAO;
+import modelo.Usuario;
+
 //import javax.swing.JRadioButton;
 
 public class TelaLogin {
@@ -41,8 +45,29 @@ public class TelaLogin {
 		JPasswordField senha = new JPasswordField();
 		senha.setBounds(150, 230, 200, 30);
 		
-		JButton registrar = new JButton("Entrar");
-		registrar.setBounds(150, 300, 200, 30);
+		JButton entrar = new JButton("Entrar");
+		entrar.setBounds(150, 300, 200, 30);
+
+		ClienteDAO clienteDAO = new ClienteDAO();
+
+		entrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String login = nome.getText();
+				String mail = email.getText();
+				String password = new String(senha.getPassword());
+
+				Usuario user = new Usuario(login, mail, password);
+				
+				if (ClienteDAO.login(user)) {
+					JOptionPane.showMessageDialog(null, "Login efetuado com sucesso.");
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Os dados inseridos são inválidos. Tente novamente.");
+				}
+			}
+		 });
+		
 		
 		tela.add(title);
 		tela.add(textoNome);
