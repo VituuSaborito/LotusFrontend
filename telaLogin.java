@@ -4,8 +4,15 @@ package frontend;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import javax.swing.JButton;
 
 import dao.ClienteDAO;
@@ -59,11 +66,21 @@ public class TelaLogin {
 
 				Usuario user = new Usuario(login, mail, password);
 				
-				if (ClienteDAO.login(user)) {
-					JOptionPane.showMessageDialog(null, "Login efetuado com sucesso.");
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Os dados inseridos são inválidos. Tente novamente.");
+				try {
+					if (ClienteDAO.login(user)) {
+						JOptionPane.showMessageDialog(null, "Login efetuado com sucesso.");
+						TelaArquivo.main(args);
+						tela.dispose();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Os dados inseridos são inválidos. Tente novamente.");
+					}
+				} catch (HeadlessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		 });
@@ -76,7 +93,7 @@ public class TelaLogin {
 		tela.add(email);
 		tela.add(textoSenha);
 		tela.add(senha);
-		tela.add(registrar);
+		tela.add(entrar);
 		
 		tela.setVisible(true);
 	}
