@@ -10,6 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import backend.DocumentIngestor;
+
 import javax.swing.ButtonGroup;
 
 import java.awt.event.*;
@@ -64,8 +67,8 @@ public class TelaArquivo {
 		JButton importar = new JButton("Inserir o arquivo");
 		importar.setBounds(145, 375, 200, 30);
 		
-		JButton refresh = new JButton("Fazer a pergunta");
-		refresh.setBounds(145, 450, 200, 30);
+		JButton pergunta = new JButton("Fazer a pergunta");
+		pergunta.setBounds(145, 450, 200, 30);
 		
 		tela.add(title);
 		tela.add(alternativa1);
@@ -73,7 +76,7 @@ public class TelaArquivo {
 		tela.add(alternativa3);
 		tela.add(alternativa4);
 		tela.add(importar);
-		tela.add(refresh);
+		tela.add(pergunta);
 		
 		tela.setVisible(true);
 		
@@ -153,7 +156,15 @@ public class TelaArquivo {
 			}
 		};
 		
+		ActionListener perguntar = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				tela.dispose();
+				TelaResposta.main(args);
+			}
+		};
+		
 		importar.addActionListener(abreArquivo);
+		pergunta.addActionListener(perguntar);
 	}
 
 }
