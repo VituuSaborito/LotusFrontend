@@ -18,9 +18,11 @@ public class TelaBanco {
         telaA.setSize(800, 500);
         telaA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        model.addColumn("Usuario");
         model.addColumn("Nome");
         model.addColumn("Caminho");
         model.addColumn("Formato");
+        
 
         try {
             Arquivos arquivos = new Arquivos();
@@ -28,7 +30,7 @@ public class TelaBanco {
             
             for (int e = 0; e < listaArquivos.size(); e++) {
                 arquivos = listaArquivos.get(e);
-                Object[] data = {arquivos.getNome(), arquivos.getCaminho(), arquivos.getFormato()};
+                Object[] data = {arquivos.getUsuario(),arquivos.getNome(), arquivos.getCaminho(), arquivos.getFormato() };
                 model.addRow(data);
             }
         } catch (SQLException ex) {

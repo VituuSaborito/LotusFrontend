@@ -12,6 +12,8 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import backend.DocumentIngestor;
+import dao.ClienteDAO;
+import modelo.Arquivos;
 
 import javax.swing.ButtonGroup;
 
@@ -28,7 +30,7 @@ import java.io.FileWriter;
 
 
 public class TelaArquivo {
-	static String username = System.getProperty("user.name");
+	//static String username = System.getProperty("user.name");
 	public static String nome;
 	
 	public static String caminho;
@@ -81,6 +83,7 @@ public class TelaArquivo {
 		tela.setVisible(true);
 		
 		ActionListener abreArquivo = new ActionListener() {
+
 			public void actionPerformed(ActionEvent evt) {
 				boolean[] list = {alternativa1.isSelected(), alternativa2.isSelected(), alternativa3.isSelected(), alternativa4.isSelected()};
 			    JFileChooser chooser = new JFileChooser();
@@ -102,19 +105,24 @@ public class TelaArquivo {
 			       File file = chooser.getSelectedFile();
 			       String filepath = file.getPath();
 			       caminho = filepath;
-			       nome = chooser.getName(file);
+			       nome = chooser.getName(file);			       
 			       String formato = nome.substring(nome.length() - 4, nome.length());
-			    	   
+			       ClienteDAO dao = new ClienteDAO();
+			       Arquivos arquivoInsert = new Arquivos(nome, caminho, formato, TelaLogin.username);
+			       arquivoInsert.toString();
+			       System.out.println(arquivoInsert);
+			       dao.adiciona(arquivoInsert);
+			       
 			       try {
-		    		   File arquivo = new File("C:\\Users\\gokuk\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome.substring(0, nome.length() - 4) + ".txt");
+		    		   File arquivo = new File("C:\\Users\\Manhã\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome.substring(0, nome.length() - 4) + ".txt");
 		    		   if(formato != ".txt") {
 			    		   System.out.println(formato);
-			    		   arquivo = new File("C:\\Users\\gokuk\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome.substring(0, nome.length() - 4) + ".txt");
+			    		   arquivo = new File("C:\\Users\\Manhã\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome.substring(0, nome.length() - 4) + ".txt");
 			    	   } else if(formato.equals("docx")) {
 			    	   		System.out.println(formato);	    		   
-			    	   		arquivo = new File("C:\\Users\\gokuk\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome.substring(0, nome.length() - 4) + "txt");
+			    	   		arquivo = new File("C:\\Users\\Manhã\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome.substring(0, nome.length() - 4) + "txt");
 			    	   } else {
-			    		   arquivo = new File("C:\\Users\\gokuk\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome);
+			    		   arquivo = new File("C:\\Users\\Manhã\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome);
 			    	   }
 			    	   
 		    		   System.out.println(arquivo);
