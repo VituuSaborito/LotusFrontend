@@ -54,7 +54,14 @@ public class TelaLogin {
 		
 		JButton entrar = new JButton("Entrar");
 		entrar.setBounds(150, 300, 200, 30);
-
+		
+		JLabel textoRegistro = new JLabel();
+		textoRegistro.setText("Não tem uma conta?");
+		textoRegistro.setBounds(230, 400, 200, 70);
+		
+		JButton registrar = new JButton("Registrar-se");
+		registrar.setBounds(150, 420, 200, 30);
+		
 		ClienteDAO clienteDAO = new ClienteDAO();
 
 		entrar.addActionListener(new ActionListener() {
@@ -85,6 +92,17 @@ public class TelaLogin {
 			}
 		 });
 		
+		registrar.addActionListener (new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				tela.dispose();
+				
+				Telaregistro telaRegistro = new TelaRegistro();
+				telaRegistro.setVisible(true);
+			}
+		});
+				
 		
 		tela.add(title);
 		tela.add(textoNome);
@@ -94,6 +112,8 @@ public class TelaLogin {
 		tela.add(textoSenha);
 		tela.add(senha);
 		tela.add(entrar);
+		tela.add(textoRegistro);
+		tela.add(registrar);
 		
 		tela.setVisible(true);
 	}
