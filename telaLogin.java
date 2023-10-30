@@ -57,7 +57,7 @@ public class TelaLogin {
 		
 		JLabel textoRegistro = new JLabel();
 		textoRegistro.setText("Não tem uma conta?");
-		textoRegistro.setBounds(230, 400, 200, 70);
+		textoRegistro.setBounds(200, 370, 200, 70);
 		
 		JButton registrar = new JButton("Registrar-se");
 		registrar.setBounds(150, 420, 200, 30);
