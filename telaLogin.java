@@ -21,6 +21,7 @@ import modelo.Usuario;
 //import javax.swing.JRadioButton;
 
 public class TelaLogin {
+	public static String username = "usuário";
 	public static void main(String[] args){
 		JFrame tela = new JFrame("Login");
 		tela.setSize(500, 700);
@@ -61,7 +62,7 @@ public class TelaLogin {
 		
 		JButton registrar = new JButton("Registrar-se");
 		registrar.setBounds(150, 420, 200, 30);
-		
+
 		ClienteDAO clienteDAO = new ClienteDAO();
 
 		entrar.addActionListener(new ActionListener() {
@@ -72,11 +73,21 @@ public class TelaLogin {
 				String password = new String(senha.getPassword());
 
 				Usuario user = new Usuario(login, mail, password);
+
+				if(login.contains("@") && login.contains(".")) {
+					try {
+						username = ClienteDAO.usuarioMenu(mail, password);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}else {
+					username = login;
+				}
 				
 				try {
 					if (ClienteDAO.login(user)) {
 						JOptionPane.showMessageDialog(null, "Login efetuado com sucesso.");
-						TelaArquivo.main(args);
+						TelaMenu.main(args);
 						tela.dispose();
 					}
 					else {
@@ -92,13 +103,14 @@ public class TelaLogin {
 			}
 		 });
 		
+		
 		registrar.addActionListener (new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 				tela.dispose();
 				
-				Telaregistro telaRegistro = new TelaRegistro();
+				telaRegistro telaRegistro = new telaRegistro();
 				telaRegistro.setVisible(true);
 			}
 		});

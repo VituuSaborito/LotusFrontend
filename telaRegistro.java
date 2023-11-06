@@ -1,6 +1,5 @@
 package frontend;
 
-//import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -13,17 +12,14 @@ import modelo.Usuario;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.*;
-//import javax.swing.JRadioButton;
 
 public class TelaRegistro {
-	/**
-	 * @param args
-	 */
+	
 	public static void main(String[] args){
-		JFrame tela = new JFrame("Registro");
+		var tela = new JFrame("Registro");
 		tela.setSize(500, 700);
 		
-		JPanel painel = new JPanel();
+		var painel = new JPanel();
 		painel.setSize(300, 700);
 		
 		tela.setLayout(null);
@@ -32,32 +28,44 @@ public class TelaRegistro {
 		title.setText("Registre-se: ");
 		title.setBounds(215, 50, 200, 70);
 		
-		JLabel txtNome = new JLabel("Nome: ");
+		var txtNome = new JLabel("Nome: ");
 		txtNome.setBounds(100, 130, 50, 30);
 		
-		JTextField inputNome = new JTextField();
+		var inputNome = new JTextField();
 		inputNome.setBounds(150, 130, 200, 30);
 		
-		JLabel txtEmail = new JLabel("Email: ");
+		var txtEmail = new JLabel("Email: ");
 		txtEmail.setBounds(100, 180, 50, 30);
 		
-		JTextField inputEmail = new JTextField();
+		var inputEmail = new JTextField();
 		inputEmail.setBounds(150, 180, 200, 30);
 		
-		JLabel txtSenha = new JLabel("Senha: ");
+		var txtSenha = new JLabel("Senha: ");
 		txtSenha.setBounds(100, 230, 50, 30);
 		
-		JPasswordField inputSenha = new JPasswordField();
+		var inputSenha = new JPasswordField();
 		inputSenha.setBounds(150, 230, 200, 30);
 		
-		JLabel txtConfSenha = new JLabel("Confirmar senha: ");
+		var txtConfSenha = new JLabel("Confirmar senha: ");
 		txtConfSenha.setBounds(40, 280, 110, 30);
 		
-		JPasswordField inputConfSenha = new JPasswordField();
+		var inputConfSenha = new JPasswordField();
 		inputConfSenha.setBounds(150, 280, 200, 30);
 		
-		JButton cadastro = new JButton("Registrar");
+		var cadastro = new JButton("Registrar");
 		cadastro.setBounds(150, 350, 200, 30);
+		
+		var limpador = new JButton("Limpar");
+		limpador.setBounds(50, 400, 200, 30);
+		
+		var saida = new JButton("Sair");
+		saida.setBounds(250, 400, 200, 30);
+
+		var txtLogin = new JLabel("Já tem uma conta?");
+		txtLogin.setBounds(150, 450, 150, 30);
+		
+		var login = new JButton("Entrar");
+		login.setBounds(150, 490, 200, 30);
 		
 		tela.add(title);
 		tela.add(txtNome);
@@ -69,6 +77,10 @@ public class TelaRegistro {
 		tela.add(txtConfSenha);
 		tela.add(inputConfSenha);
 		tela.add(cadastro);
+		tela.add(limpador);
+		tela.add(saida);
+		tela.add(txtLogin);
+		tela.add(login);
 		
 		tela.setVisible(true);
 		
@@ -99,17 +111,21 @@ public class TelaRegistro {
 						inputEmail.setText("");
 						inputSenha.setText("");
 						inputConfSenha.setText("");
+						tela.dispose();
+						TelaArquivo.main(args);
 					} else {
 						JOptionPane.showMessageDialog(null, "Sua senha está incorreta");
 					}
-				}
-				
+				}			
 			}
 		};
 		
 		ActionListener limpa = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				inputNome.setText("");
+				inputEmail.setText("");
+				inputSenha.setText("");
+				inputConfSenha.setText("");
 			}
 		};
 		
@@ -120,5 +136,7 @@ public class TelaRegistro {
 		};
 		
 		cadastro.addActionListener(cadastrar);
+		limpador.addActionListener(limpa);
+		saida.addActionListener(sai);
 	}
 }

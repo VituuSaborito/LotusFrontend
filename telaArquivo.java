@@ -12,6 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import backend.DocumentIngestor;
+import backend.FuncTelaArquivo;
 import dao.ClienteDAO;
 import modelo.Arquivos;
 
@@ -23,10 +24,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-
-//import java.util.concurrent.Executors;
-//import java.util.concurrent.ScheduledExecutorService;
-//import java.util.concurrent.TimeUnit;
 
 
 public class TelaArquivo {
@@ -52,117 +49,70 @@ public class TelaArquivo {
 
 		JRadioButton alternativa1 = new JRadioButton("PDF", false);
 		alternativa1.setBounds(100, 150, 60, 70);
-		JRadioButton alternativa2 = new JRadioButton("DOCX", false);
-		alternativa2.setBounds(100, 200, 60, 70);
 		JRadioButton alternativa3 = new JRadioButton("TXT", false);
-		alternativa3.setBounds(100, 250, 60, 70);
-		JRadioButton alternativa4 = new JRadioButton("CSV", false);
-		alternativa4.setBounds(100, 300, 60, 70);
+		alternativa3.setBounds(100, 200, 60, 70);
+		
+		JLabel recomenda = new JLabel();
+		recomenda.setText("* Recomendado o uso de TXT e PDF");
+		recomenda.setBounds(100, 320, 300, 20);
+		
+		
+		JRadioButton alternativa2 = new JRadioButton("DOCX", false);
+		alternativa2.setBounds(100, 250, 60, 70);
 		
 		
 		ButtonGroup radios = new ButtonGroup();
 		radios.add(alternativa1);
 		radios.add(alternativa2);
 		radios.add(alternativa3);
-		radios.add(alternativa4);
 		
 		JButton importar = new JButton("Inserir o arquivo");
-		importar.setBounds(145, 375, 200, 30);
+		importar.setBounds(145, 400, 200, 30);
 		
-		JButton pergunta = new JButton("Fazer a pergunta");
+		JButton pergunta = new JButton("Perguntar ao Assistente");
 		pergunta.setBounds(145, 450, 200, 30);
+		
+		JButton menu = new JButton("Menu");
+		menu.setBounds(145, 500, 200, 30);
 		
 		tela.add(title);
 		tela.add(alternativa1);
 		tela.add(alternativa2);
 		tela.add(alternativa3);
-		tela.add(alternativa4);
 		tela.add(importar);
 		tela.add(pergunta);
+		tela.add(recomenda);
+		tela.add(menu);
 		
 		tela.setVisible(true);
 		
 		ActionListener abreArquivo = new ActionListener() {
-
 			public void actionPerformed(ActionEvent evt) {
-				boolean[] list = {alternativa1.isSelected(), alternativa2.isSelected(), alternativa3.isSelected(), alternativa4.isSelected()};
+				boolean[] formatos = {alternativa1.isSelected(), alternativa2.isSelected(), alternativa3.isSelected(), alternativa4.isSelected()};
 			    JFileChooser chooser = new JFileChooser();
-			    if(list[3] == true) {
-			    	FileNameExtensionFilter filter = new FileNameExtensionFilter("Formato csv", "csv");			    	
-			    	chooser.setFileFilter(filter);
-			    } else if(list[1] == true) {
-			    	FileNameExtensionFilter filter = new FileNameExtensionFilter("Formato docx", "docx");			    	
-			    	chooser.setFileFilter(filter);
-			    } else if(list[2] == true) {
-			    	FileNameExtensionFilter filter = new FileNameExtensionFilter("Formato txt", "txt");			    	
-			    	chooser.setFileFilter(filter);
-			    } else {
-			    	FileNameExtensionFilter filter = new FileNameExtensionFilter("Formato pdf", "pdf");			    	
-			    	chooser.setFileFilter(filter);
-			    }
+			    FuncTelaArquivo.escolheFiltro(formatos, chooser);
 			    int i = chooser.showOpenDialog(tela);
 			    if(i == JFileChooser.APPROVE_OPTION) {
 			       File file = chooser.getSelectedFile();
 			       String filepath = file.getPath();
 			       caminho = filepath;
-			       nome = chooser.getName(file);			       
+			       nome = chooser.getName(file);
 			       String formato = nome.substring(nome.length() - 4, nome.length());
 			       ClienteDAO dao = new ClienteDAO();
 			       Arquivos arquivoInsert = new Arquivos(nome, caminho, formato, TelaLogin.username);
 			       arquivoInsert.toString();
 			       System.out.println(arquivoInsert);
 			       dao.adiciona(arquivoInsert);
+				   File arquivo = null;
 			       
-			       try {
-		    		   File arquivo = new File("C:\\Users\\Manhã\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome.substring(0, nome.length() - 4) + ".txt");
-		    		   if(formato != ".txt") {
-			    		   System.out.println(formato);
-			    		   arquivo = new File("C:\\Users\\Manhã\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome.substring(0, nome.length() - 4) + ".txt");
-			    	   } else if(formato.equals("docx")) {
-			    	   		System.out.println(formato);	    		   
-			    	   		arquivo = new File("C:\\Users\\Manhã\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome.substring(0, nome.length() - 4) + "txt");
-			    	   } else {
-			    		   arquivo = new File("C:\\Users\\Manhã\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\backend\\" + nome);
-			    	   }
-			    	   
-		    		   System.out.println(arquivo);
-			    	   if(arquivo.exists()) {
-			    		   JOptionPane.showMessageDialog(null, "Um arquivo com o mesmo nome já foi carregado. Por favor escolha outro nome para o arquivo.");
-			    	   } else {
-			    		   //file.renameTo(new File("C:\\Users\\" + username + "\\eclipse-workspace\\chatBot\\lib\\src\\main\\java\\chatBot", file.getName()));
-			    		   System.out.println(nome);
-			    		   arquivo.createNewFile();
-			    		   FileWriter fw = new FileWriter(arquivo, true);
-			    		   BufferedWriter bw = new BufferedWriter(fw);
-			    		   BufferedReader buferredReader = new BufferedReader(new FileReader(filepath));
-			    		   String str1 = "";
-			    		   while (buferredReader.ready()) {
-			    			   	str1 = buferredReader.readLine();
-			    		   		//str2 += str1 + "\n";
-			    		   		bw.write(str1);
-			    		   		bw.newLine();
-			    		   		//System.out.println(str1);
-			    		   }
-			    		   
-			    		   JOptionPane.showMessageDialog(null, "Arquivo Carregado com Sucesso!");
-			    		   JOptionPane.showMessageDialog(null, arquivo.toURI());
-			    		   
-			    		   //DocumentIngestor.main(args); é pra abrir outra tela
-			    		   
-			    		   //tela.dispose();
-			    		   //DocumentIngestor.main(args);
-			    		   //TelaResposta.main(args);
-			    		   
-			    		   buferredReader.close();
-			    		   bw.close();
-			    		   fw.close();
-			    	   		}
-			    	   	} catch (Exception ex) {
+					try {
+		    		   FuncTelaArquivo.escolheFormato(formato, arquivo, nome, caminho, file);
+			       	} catch (Exception ex) {
 			    	   ex.printStackTrace();   
 			    	   	}			    	   			    	   
 			    }
-			}
-		};
+		}
+	};
 		
 		ActionListener perguntar = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -171,8 +121,16 @@ public class TelaArquivo {
 			}
 		};
 		
+		ActionListener voltar = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				tela.dispose();
+				TelaMenu.main(args);
+			}
+		};
+		
 		importar.addActionListener(abreArquivo);
 		pergunta.addActionListener(perguntar);
+		menu.addActionListener(voltar);
 	}
 
 }

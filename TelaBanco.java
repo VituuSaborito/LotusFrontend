@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import dao.ClienteDAO;
 import modelo.Arquivos;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -15,14 +18,23 @@ public class TelaBanco {
 
         JTable tabela = new JTable(model);
         
-        telaA.setSize(800, 500);
+        JButton voltar = new JButton("voltar");
+        //voltar.setBounds();
+        voltar.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+				telaA.dispose();
+				TelaMenu.main(args);				
+			}
+        });
+        
+        telaA.setSize(500, 700);
         telaA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        model.addColumn("Usuario");
+        
         model.addColumn("Nome");
         model.addColumn("Caminho");
         model.addColumn("Formato");
-        
 
         try {
             Arquivos arquivos = new Arquivos();
@@ -30,7 +42,7 @@ public class TelaBanco {
             
             for (int e = 0; e < listaArquivos.size(); e++) {
                 arquivos = listaArquivos.get(e);
-                Object[] data = {arquivos.getUsuario(),arquivos.getNome(), arquivos.getCaminho(), arquivos.getFormato() };
+                Object[] data = {arquivos.getNome(), arquivos.getCaminho(), arquivos.getFormato()};
                 model.addRow(data);
             }
         } catch (SQLException ex) {
@@ -39,6 +51,7 @@ public class TelaBanco {
 
         panel.add(new JScrollPane(tabela));
         telaA.add(panel);
+        panel.add(voltar);
         telaA.setVisible(true);
     }
 }
